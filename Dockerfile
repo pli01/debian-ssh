@@ -23,6 +23,7 @@ RUN useradd docker \
         && chown docker:docker /home/docker \
         && addgroup docker staff \
         && addgroup docker sudo \
+        && echo "docker ALL=(ALL) NOPASSWD:ALL" |tee /etc/sudoers.d/docker \
         && true
 
 EXPOSE 22
