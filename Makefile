@@ -4,7 +4,7 @@ PARENT_NAME=$(shell sed -r -n '/^FROM/ {s/^FROM +//;p}' Dockerfile)
 PROJECT=debian-ssh
 CONTAINER_NAME=$(PROJECT):$(shell git rev-parse --abbrev-ref HEAD | sed 's/master/latest/')
 PORT=2222
-DOCKER_USER=ansible
+DOCKER_USER ?= docker
 
 distribute: .FORCE
 	for b in $$(git branch --no-merged); do git merge-into $$b --no-edit; done
