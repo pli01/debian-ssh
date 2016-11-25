@@ -4,7 +4,7 @@ PARENT_NAME=$(shell sed -r -n '/^FROM/ {s/^FROM +//;p}' Dockerfile)
 PROJECT=debian-ssh
 CONTAINER_NAME=$(PROJECT):$(shell git rev-parse --abbrev-ref HEAD | sed 's/master/latest/')
 PORT=2222
-DOCKER_USER=docker
+DOCKER_USER=ansible
 
 distribute: .FORCE
 	for b in $$(git branch --no-merged); do git merge-into $$b --no-edit; done
@@ -16,7 +16,7 @@ pull: .FORCE
 	docker pull $(PARENT_NAME)
 
 build: .FORCE
-	docker build -t $(CONTAINER_NAME) .
+	docker build  --build-arg  USER=$(DOCKER_USER) -t $(CONTAINER_NAME) .
 
 rebuild: pull .FORCE
 	docker build --no-cache -t $(CONTAINER_NAME) .
